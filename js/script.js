@@ -13,7 +13,7 @@ window.addEventListener('load', () => {
     //se houver dados em localstorage, faz um split(';') e atribui esses dados ao array
     //caso contrário, inicializamos o array
     const ocupadas = localStorage.getItem('teatroOcupadas')
-    ? localStorage.getItem('teatroOcupadas').split(';')
+        ? localStorage.getItem('teatroOcupadas').split(';') : []
 
     //montar o n° total de poltronas (definidas pela constante)
     for (let i = 1; i <= POLTRONAS; i++) {
@@ -22,7 +22,33 @@ window.addEventListener('load', () => {
 
 
         //se a posição estiver ocupada, exibe a imagem ocupada, se não, a imagem disponível
-        imgStatus.src = ocupada
+        imgStatus.src = ocupadas.includes(i.toString())
+            ? 'img/ocupada.jpg'
+            : 'img/disponivel.jpg'
+        imgStatus.className = 'poltrona' //classe com a dimensão da imagem
+
+        const figureCap = document.createElement('figcaption')
+
+        const zeros = i < 10 ? '00' : i < 100 ? '0' : '' //quantidade de zeros antes do n° da poltrona
+
+        const num = document.createTextNode(`[${zeros}${i}]`) //cria o texto
+
+        //define os pais de cada tag criada
+        figureCap.appendChild(num)
+        figure.appendChild(imgStatus)
+        figure.appendChild(figureCap)
+
+
+        //se i módulo de 24 = 12 (é o corredor: define margem direita 60px)
+        if (i % 24 == 12) figure.style.marginRight = '60px'
+
+        dvPalco.appendChild(figure); //indica que a figura é filha de divPalco
+
+
+        //se i módulo 24 == 0: o código após && será executado (inserindo a quebra de linha)
+        (i % 24 == 0) && dvPalco.appendChild(document.createElement('br'))
+
+
     }
 
 })

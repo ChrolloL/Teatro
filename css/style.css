@@ -15,3 +15,9 @@ img.poltrona {
     width: 24;
     height: 16px;
 }
+
+figure {
+    display: inline-block;
+    font-size: 0.7 rem;
+    margin: 5px;
+}
