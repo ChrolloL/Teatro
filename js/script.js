@@ -9,6 +9,8 @@ const POLTRONAS = 240
 const reservadas = []
 
 window.addEventListener('load', () => {
+    
+  
 
     //se houver dados em localstorage, faz um split(';') e atribui esses dados ao array
     //caso contrário, inicializamos o array
@@ -50,5 +52,43 @@ window.addEventListener('load', () => {
 
 
     }
+
+})
+
+frm.addEventListener('submit', (e) => {
+    e.preventDefault()
+
+    //obtém o conteúdo do input
+    const poltrona = Number(frm.inPoltrona.value)
+
+    //valida o preenchimento de entrada
+    if(poltrona > POLTRONAS) {
+        alert('informe um número de poltrona válido!')
+        frm.inPoltrona.value = ''
+        frm.inPoltrona.focus()
+        return
+    } 
+
+    const ocupadas = localStorage.getItem('teatroOcupadas')
+    ? localStorage.getItem('teatroOcupadas').split(';')
+    : []
+
+    //validar se a poltrona já tiver ocupada
+    if(ocupadas.includes(poltrona.toString())) {
+        alert('Poltrona já ocupada!')
+        frm.inPoltrona.value = ''
+        frm.inPoltrona.focus()
+        return
+    }
+
+    //capturar a imagem da poltrona, filha de divPalco
+    const imgPoltrona = dvPalco.querySelectorAll('img')[poltrona - 1]
+
+    imgPoltrona.src = 'img/reservada.jpg' //modifica o atributo da img
+
+    reservadas.push(poltrona) //adiciona a poltrona ao vetor
+
+    frm.inPoltrona.value = ''
+    frm.inPoltrona.focus()
 
 })
