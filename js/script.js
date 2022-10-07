@@ -73,6 +73,13 @@ frm.addEventListener('submit', (e) => {
     ? localStorage.getItem('teatroOcupadas').split(';')
     : []
 
+    if(reservadas.includes(poltrona)) {
+        alert('Poltrona já reservada!')
+        frm.inPoltrona.value = ''
+        frm.inPoltrona.focus()
+        return
+    }
+    
     //validar se a poltrona já tiver ocupada
     if(ocupadas.includes(poltrona.toString())) {
         alert('Poltrona já ocupada!')
