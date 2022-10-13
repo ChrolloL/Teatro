@@ -74,7 +74,7 @@ frm.addEventListener('submit', (e) => {
     : []
 
     if(reservadas.includes(poltrona)) {
-        alert('Poltrona já reservada!')
+        alert(`Poltrona já reservada!`)
         frm.inPoltrona.value = ''
         frm.inPoltrona.focus()
         return
@@ -82,7 +82,7 @@ frm.addEventListener('submit', (e) => {
     
     //validar se a poltrona já tiver ocupada
     if(ocupadas.includes(poltrona.toString())) {
-        alert('Poltrona já ocupada!')
+        alert(`A poltrona ${poltrona} já  está ocupada!`)
         frm.inPoltrona.value = ''
         frm.inPoltrona.focus()
         return
@@ -99,3 +99,64 @@ frm.addEventListener('submit', (e) => {
     frm.inPoltrona.focus()
 
 })
+
+frm.btConfirmar.addEventListener('click', () => {
+    //verificar se não há poltronas reservadas
+    if (reservadas.length == 0) {
+        alert('Não há poltronas reservadas.')
+        frm.inPoltrona.focus()
+        return
+    }
+
+    const ocupadas = localStorage.getItem('teatroOcupadas')
+    ? localStorage.getItem('teatroOcupadas').split(';')
+    : [];
+
+
+    //for decrescente
+    for (let i = reservadas.length - 1; i>=0; i--) {
+        ocupadas.push(reservadas[i])
+
+        //captura a imagem da poltrona, filha e divPalco. É -1 pois começa em 0
+        const imgPoltrona = dvPalco.querySelectorAll('img')[reservadas[i] - 1]
+        imgPoltrona.src = 'img/ocupada.jpg' //modifica a imagem
+        reservadas.pop()
+    }
+
+    localStorage.setItem('teatroOcupadas', ocupadas.join(';'))
+})
+
+
+frm.btCancelar.addEventListener('click', () => {
+    const ocupadas = localStorage.getItem('teatroOcupadas')
+    ? localStorage.getItem('teatroOcupadas').split(';')
+    : [];
+
+    if (ocupadas.length == 0) {
+        alert('Não há poltronas ocupadas.')
+        frm.inPoltrona.focus()
+        return
+    } 
+
+
+
+    const poltrona = Number(frm.inPoltrona.value)
+
+    if (!ocupadas.includes(poltrona.toString())) {
+        alert('Esta poltrona não está ocupada.')
+        frm.inPoltrona.focus()
+        return
+    } 
+
+    //captura a imagem da poltrona, filha e divPalco. É -1 pois começa em 0
+    const imgPoltrona = dvPalco.querySelectorAll('img')[poltrona - 1]
+    imgPoltrona.src = 'img/disponivel.jpg' //modifica a imagem
+    
+    ocupadas.splice(poltrona-1, 1)
+
+    localStorage.setItem('teatroOcupadas', ocupadas.join(';'))
+
+
+
+
+}) 
