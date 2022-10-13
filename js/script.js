@@ -152,7 +152,7 @@ frm.btCancelar.addEventListener('click', () => {
     
 
     if (!ocupadas.includes(poltrona.toString())) {
-        alert('Esta poltrona não está ocupada.')
+        alert('Esta poltrona não existe/não está ocupada.')
         frm.inPoltrona.focus()
         return
     } 
