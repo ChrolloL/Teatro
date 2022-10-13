@@ -132,6 +132,8 @@ frm.btCancelar.addEventListener('click', () => {
     ? localStorage.getItem('teatroOcupadas').split(';')
     : [];
 
+
+
     if (ocupadas.length == 0) {
         alert('Não há poltronas ocupadas.')
         frm.inPoltrona.focus()
@@ -140,7 +142,14 @@ frm.btCancelar.addEventListener('click', () => {
 
 
 
+    if (frm.inPoltrona.value == '') {
+        alert('Informe a poltrona para cancelar.')
+        frm.inPoltrona.focus()
+        return
+    }
+  
     const poltrona = Number(frm.inPoltrona.value)
+    
 
     if (!ocupadas.includes(poltrona.toString())) {
         alert('Esta poltrona não está ocupada.')
@@ -152,11 +161,8 @@ frm.btCancelar.addEventListener('click', () => {
     const imgPoltrona = dvPalco.querySelectorAll('img')[poltrona - 1]
     imgPoltrona.src = 'img/disponivel.jpg' //modifica a imagem
     
-    ocupadas.splice(poltrona-1, 1)
+    ocupadas.splice(ocupadas.indexOf(poltrona.toString()), 1)
 
     localStorage.setItem('teatroOcupadas', ocupadas.join(';'))
-
-
-
 
 }) 
