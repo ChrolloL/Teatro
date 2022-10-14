@@ -123,6 +123,8 @@ frm.btConfirmar.addEventListener('click', () => {
         reservadas.pop()
     }
 
+    frm.inPoltrona.value = ''
+
     localStorage.setItem('teatroOcupadas', ocupadas.join(';'))
 })
 
@@ -131,16 +133,6 @@ frm.btCancelar.addEventListener('click', () => {
     const ocupadas = localStorage.getItem('teatroOcupadas')
     ? localStorage.getItem('teatroOcupadas').split(';')
     : [];
-
-
-
-    if (ocupadas.length == 0) {
-        alert('Não há poltronas ocupadas.')
-        frm.inPoltrona.focus()
-        return
-    } 
-
-
 
     if (frm.inPoltrona.value == '') {
         alert('Informe a poltrona para cancelar.')
@@ -153,6 +145,7 @@ frm.btCancelar.addEventListener('click', () => {
 
     if (!ocupadas.includes(poltrona.toString())) {
         alert('Esta poltrona não existe/não está ocupada.')
+        frm.inPoltrona.value = ''
         frm.inPoltrona.focus()
         return
     } 
@@ -161,8 +154,12 @@ frm.btCancelar.addEventListener('click', () => {
     const imgPoltrona = dvPalco.querySelectorAll('img')[poltrona - 1]
     imgPoltrona.src = 'img/disponivel.jpg' //modifica a imagem
     
+    frm.inPoltrona.value = ''
+    frm.inPoltrona.focus()
+
     ocupadas.splice(ocupadas.indexOf(poltrona.toString()), 1)
 
     localStorage.setItem('teatroOcupadas', ocupadas.join(';'))
+
 
 }) 
